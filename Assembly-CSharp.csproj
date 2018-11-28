@@ -61,11 +61,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CreateMenu.cs" />
-    <Compile Include="Assets\CreateWorld.cs" />
-    <Compile Include="Assets\LoadingBar.cs" />
-    <Compile Include="Assets\LoadMenu.cs" />
-    <Compile Include="Assets\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\LoadingBar.cs" />
+    <Compile Include="Assets\Scripts\MainMenu\CreateMenu.cs" />
+    <Compile Include="Assets\Scripts\MainMenu\LoadMenu.cs" />
+    <Compile Include="Assets\Scripts\MainMenu\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\MapEditor\Controls.cs" />
+    <Compile Include="Assets\Scripts\MapEditor\TestScript.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
