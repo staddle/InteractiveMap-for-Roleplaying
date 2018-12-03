@@ -13,10 +13,32 @@ public class GridScript : MonoBehaviour {
     public int xV, yV;
     public LineFactory lineFactory;
     public float lineThiccccccness = 0.03f;
+    public float theta_scale = 0.01f;        //Set lower to add more points
+    public int size; //Total number of points in circle
+    public float radius = 3f;
     Vector2 startPoint, endPoint;
     Line line1, line2, line3, line4;
+    Vector3Int oldMarkedStart, oldMarkedEnd;
+    LineRenderer lineRenderer;
+    Vector3 startCircle, endCircle;
+    bool end = false;
     // Use this for initialization
-    void Start () { //anchorPoint is bottom-left
+    void Start() { //anchorPoint is bottom-left
+        
+        float sizeValue = (2.0f * Mathf.PI) / theta_scale;
+        size = (int)sizeValue;
+        size++;
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.black;
+        lineRenderer.endColor = Color.black;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.positionCount = size;
+        lineRenderer.sortingOrder = 1;
+
+
+        end = false;
         xV = PlayerPrefs.GetInt("x-Value");
         yV = PlayerPrefs.GetInt("y-Value");
         grid = GetComponentInParent<Grid>();
@@ -92,6 +114,36 @@ public class GridScript : MonoBehaviour {
                 line4.end = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, line4.start.y);
             }
         }
+
+        if(uiScript.isCircleCursorActive && !EventSystem.current.IsPointerOverGameObject())
+        {
+            //bool end = false;
+            if (Input.GetMouseButtonDown(0))
+            {
+                end = false;
+                startCircle = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }else if (Input.GetMouseButtonUp(0))
+            {
+                end = true; //draw circle finally and mark any panels in circle
+            }
+            if (!end)
+            {
+                endCircle = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                radius = (float) 0.5 * Vector3.Distance(startCircle, endCircle);
+                Vector3 pos; //make dependent from mouse location
+                float theta = 0f;
+                for (int i = 0; i < size; i++)
+                {
+                    theta += (2.0f * Mathf.PI * theta_scale);
+                    float x = radius * Mathf.Cos(theta);
+                    float y = radius * Mathf.Sin(theta);
+                    x += endCircle.x+startCircle.x;
+                    y += endCircle.y+startCircle.y;
+                    pos = new Vector3(x, y, 0);
+                    lineRenderer.SetPosition(i, pos);
+                }
+            }
+        }
 	}
 
     public void clearLines()
@@ -106,6 +158,7 @@ public class GridScript : MonoBehaviour {
 
     void markPanelsRect(Vector2 p1, Vector2 p2)
     {
+        removeMarks();
         if (p1.x >= p2.x) {
             float x2 = p1.x;
             p1.x = p2.x;
@@ -121,12 +174,25 @@ public class GridScript : MonoBehaviour {
 
         Vector3Int p1Int = grid.WorldToCell(p1);
         Vector3Int p2Int = grid.WorldToCell(p2);
+        oldMarkedStart = p1Int;
+        oldMarkedEnd = p2Int;
         Debug.Log(p1Int + " " + p2Int);
         for (int x=p1Int.x+1; x<p2Int.x; x++)
         {
             for(int y = p1Int.y+1; y<p2Int.y; y++)
             {
                 GameObject.Find(x + "/" + y).GetComponent<SpriteScript>().markPanel();
+            }
+        }
+    }
+
+    void removeMarks()
+    {
+        for (int x = oldMarkedStart.x + 1; x < oldMarkedEnd.x; x++)
+        {
+            for (int y = oldMarkedStart.y + 1; y < oldMarkedEnd.y; y++)
+            {
+                GameObject.Find(x + "/" + y).GetComponent<SpriteScript>().unmarkPanel();
             }
         }
     }
