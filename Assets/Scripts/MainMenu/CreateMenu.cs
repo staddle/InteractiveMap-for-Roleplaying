@@ -9,12 +9,14 @@ public class CreateMenu : MonoBehaviour {
 
     public bool locked = true;
     public int maxSize = 100;
-    public static int x;
-    public static int y;
+    public int x;
+    public int y;
 
 	public void callNext()
     {
-        SceneManager.LoadScene("");
+        PlayerPrefs.SetInt("x-Value", x);
+        PlayerPrefs.SetInt("y-Value", y);
+        SceneManager.LoadScene("MapEditor");
     }
 
     public void onXSliderMoved()
