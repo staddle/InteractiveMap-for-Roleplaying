@@ -125,11 +125,19 @@ public class GridScript : MonoBehaviour {
             }else if (Input.GetMouseButtonUp(0))
             {
                 end = true; //draw circle finally and mark any panels in circle
+                markPanelsCirc(new Vector3(startCircle.x + radius * -Mathf.Sign(startCircle.x - endCircle.x), startCircle.y + radius * -Mathf.Sign(startCircle.y - endCircle.y),0), radius);
             }
-            if (!end)
+            if (!end && Input.GetKey(KeyCode.Mouse0))
             {
                 endCircle = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                radius = (float) 0.5 * Vector3.Distance(startCircle, endCircle);
+                if(Mathf.Abs(startCircle.x-endCircle.x) < Mathf.Abs(startCircle.y - endCircle.y))
+                {
+                    radius = (float)0.5 * Mathf.Abs(startCircle.x - endCircle.x);
+                }
+                else
+                {
+                    radius = (float)0.5*Mathf.Abs(startCircle.y - endCircle.y);
+                }
                 Vector3 pos; //make dependent from mouse location
                 float theta = 0f;
                 for (int i = 0; i < size; i++)
@@ -137,14 +145,32 @@ public class GridScript : MonoBehaviour {
                     theta += (2.0f * Mathf.PI * theta_scale);
                     float x = radius * Mathf.Cos(theta);
                     float y = radius * Mathf.Sin(theta);
-                    x += endCircle.x+startCircle.x;
-                    y += endCircle.y+startCircle.y;
+                    x += startCircle.x + radius * -Mathf.Sign(startCircle.x - endCircle.x);
+                    y += startCircle.y + radius * -Mathf.Sign(startCircle.y - endCircle.y);
                     pos = new Vector3(x, y, 0);
                     lineRenderer.SetPosition(i, pos);
                 }
             }
         }
 	}
+
+    public void markPanelsCirc(Vector3 m, float radius)
+    {
+        Vector3Int gridM = grid.WorldToCell(m);
+        for(int x = gridM.x; x < gridM.x+radius; x++)
+        {
+            for(int y = gridM.y; y < gridM.y+radius; y++)
+            {
+                if ((x - gridM.x) * (x - gridM.x) + (y - gridM.y) * (y - gridM.y) <= radius * radius)
+                {
+                    GameObject.Find(x + "/" + y).GetComponent<SpriteScript>().markPanel();
+                    GameObject.Find(gridM.x-x + "/" + y).GetComponent<SpriteScript>().markPanel();
+                    GameObject.Find(x + "/" + (gridM.y-y)).GetComponent<SpriteScript>().markPanel();
+                    GameObject.Find(gridM.x - x + "/" + (gridM.y - y)).GetComponent<SpriteScript>().markPanel();
+                }
+            }
+        }
+    }
 
     public void clearLines()
     {
