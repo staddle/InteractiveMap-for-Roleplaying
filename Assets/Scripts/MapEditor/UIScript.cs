@@ -16,6 +16,8 @@ public class UIScript : MonoBehaviour
     public GameObject black2;
     public GameObject black3;
     public GameObject black4;
+    public GameObject rightClick;
+    public bool isRightClickMenuActive = false;
     public bool isMoveCursorActive = true;
     public bool isSquareCursorActive = false;
     public bool isCircleCursorActive = false;
@@ -129,5 +131,17 @@ public class UIScript : MonoBehaviour
         onSquareClicked1();
         onMoveClicked1();
         onCircleClicked1();
+    }
+
+    public void rightClickMenu(Vector3 position)
+    {
+        isRightClickMenuActive = true;
+        rightClick.SetActive(true);
+        rightClick.transform.position = position;
+    }
+
+    public void rightClickMenuClear()
+    {
+        rightClick.SetActive(false);
     }
 }

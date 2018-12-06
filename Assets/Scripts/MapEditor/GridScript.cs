@@ -21,6 +21,11 @@ public class GridScript : MonoBehaviour {
     Vector3Int oldMarkedStart, oldMarkedEnd;
     LineRenderer lineRenderer;
     Vector3 startCircle, endCircle;
+    List<SpriteScript> markedList = new List<SpriteScript>();
+    List<POI> pois = new List<POI>();
+    public Transform POIPref;
+    public GameObject POIPanel;
+
     bool end = false;
     // Use this for initialization
     void Start() { //anchorPoint is bottom-left
@@ -65,6 +70,15 @@ public class GridScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (uiScript.isMoveCursorActive && Input.GetMouseButtonDown(1)) //POIMenuCreation
+        {
+            uiScript.rightClickMenu(Input.mousePosition);
+        }
+
+        if (uiScript.isRightClickMenuActive && Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        {
+            uiScript.rightClickMenuClear();
+        }
         if (!uiScript.isMoveCursorActive && Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject() && uiScript.colorSelected != -1)
         {
             Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -99,7 +113,7 @@ public class GridScript : MonoBehaviour {
             {
                 line1 = null;
                 endPoint = line3.end;
-                Debug.Log(startPoint + " " + endPoint);
+                //Debug.Log(startPoint + " " + endPoint);
                 markPanelsRect(startPoint, endPoint);
                 clearLines();
             }
@@ -156,6 +170,7 @@ public class GridScript : MonoBehaviour {
 
     public void markPanelsCirc(Vector3 m, float radius)
     {
+        removeMarks();
         Vector3Int gridM = grid.WorldToCell(m);
         for(int x = gridM.x; x < gridM.x+radius; x++)
         {
@@ -163,10 +178,14 @@ public class GridScript : MonoBehaviour {
             {
                 if ((x - gridM.x) * (x - gridM.x) + (y - gridM.y) * (y - gridM.y) <= radius * radius)
                 {
-                    GameObject.Find(x + "/" + y).GetComponent<SpriteScript>().markPanel();
-                    GameObject.Find(gridM.x-x + "/" + y).GetComponent<SpriteScript>().markPanel();
-                    GameObject.Find(x + "/" + (gridM.y-y)).GetComponent<SpriteScript>().markPanel();
-                    GameObject.Find(gridM.x - x + "/" + (gridM.y - y)).GetComponent<SpriteScript>().markPanel();
+                    SpriteScript ss1 = GameObject.Find(x + "/" + y).GetComponent<SpriteScript>();
+                    if (ss1 != null) { ss1.markPanel(); markedList.Add(ss1); }
+                    SpriteScript ss2 = GameObject.Find(gridM.x - (x - gridM.x) + "/" + y).GetComponent<SpriteScript>();
+                    if (ss2 != null) { ss2.markPanel(); markedList.Add(ss2); }
+                    SpriteScript ss3 = GameObject.Find(x + "/" + (gridM.y - (y - gridM.y))).GetComponent<SpriteScript>();
+                    if (ss3 != null) { ss3.markPanel(); markedList.Add(ss3); }
+                    SpriteScript ss4 = GameObject.Find((gridM.x - (x - gridM.x)) + "/" + (gridM.y - (y - gridM.y))).GetComponent<SpriteScript>();
+                    if (ss4 != null) { ss4.markPanel(); markedList.Add(ss4); }
                 }
             }
         }
@@ -202,24 +221,22 @@ public class GridScript : MonoBehaviour {
         Vector3Int p2Int = grid.WorldToCell(p2);
         oldMarkedStart = p1Int;
         oldMarkedEnd = p2Int;
-        Debug.Log(p1Int + " " + p2Int);
+        //Debug.Log(p1Int + " " + p2Int);
         for (int x=p1Int.x+1; x<p2Int.x; x++)
         {
             for(int y = p1Int.y+1; y<p2Int.y; y++)
             {
-                GameObject.Find(x + "/" + y).GetComponent<SpriteScript>().markPanel();
+                SpriteScript ss = GameObject.Find(x + "/" + y).GetComponent<SpriteScript>();
+                if (ss != null) { ss.markPanel(); markedList.Add(ss); }
             }
         }
     }
 
     void removeMarks()
     {
-        for (int x = oldMarkedStart.x + 1; x < oldMarkedEnd.x; x++)
+        foreach (SpriteScript ss in markedList)
         {
-            for (int y = oldMarkedStart.y + 1; y < oldMarkedEnd.y; y++)
-            {
-                GameObject.Find(x + "/" + y).GetComponent<SpriteScript>().unmarkPanel();
-            }
+            ss.unmarkPanel();
         }
     }
 
@@ -227,5 +244,19 @@ public class GridScript : MonoBehaviour {
     {
         Destroy(GameObject.Find("panelObjects"));
         Start();
+    }
+
+    public void createPOI()
+    {
+        Vector3 mPos = Camera.main.ScreenToWorldPoint(uiScript.rightClick.transform.position);
+        mPos.z = 0;
+        Transform gO = Instantiate(POIPref, mPos, Quaternion.identity);
+        showPOIPanel();
+        pois.Add(new POI(gO, "New POI", mPos, "Change Description", Color.red, new List<string>() { "new" }));
+    }
+
+    public void showPOIPanel()
+    {
+        POIPanel.SetActive(true);
     }
 }

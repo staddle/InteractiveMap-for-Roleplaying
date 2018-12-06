@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Controls : MonoBehaviour {
 
@@ -31,7 +32,7 @@ public class Controls : MonoBehaviour {
             cam.transform.position -= newMouse-oldMouse;
         }
 
-        if ((uiScript.isMoveCursorActive && Input.GetKey(KeyCode.Mouse0)) || (!uiScript.isMoveCursorActive && Input.GetKey(KeyCode.Mouse1)))
+        if (!EventSystem.current.IsPointerOverGameObject() && ((uiScript.isMoveCursorActive && Input.GetKey(KeyCode.Mouse0)) || (!uiScript.isMoveCursorActive && Input.GetKey(KeyCode.Mouse1))))
         {
             if (Input.GetAxis("Mouse X")!=0)
             {

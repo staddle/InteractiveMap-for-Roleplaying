@@ -74,6 +74,8 @@
     <Compile Include="Assets\Scripts\MapEditor\DrawCircle.cs" />
     <Compile Include="Assets\Scripts\MapEditor\GridScript.cs" />
     <Compile Include="Assets\Scripts\MapEditor\Panel.cs" />
+    <Compile Include="Assets\Scripts\MapEditor\POI.cs" />
+    <Compile Include="Assets\Scripts\MapEditor\POIScript.cs" />
     <Compile Include="Assets\Scripts\MapEditor\SpriteScript.cs" />
     <Compile Include="Assets\Scripts\MapEditor\TestScript.cs" />
     <Compile Include="Assets\Scripts\MapEditor\Triangulator.cs" />
