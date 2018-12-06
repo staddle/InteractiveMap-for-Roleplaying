@@ -712,7 +712,18 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2110965015}
+        m_MethodName: check
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: TMPro.TMP_InputField+SubmitEvent, Unity.TextMeshPro, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_OnSubmit:
@@ -2410,7 +2421,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+    m_HighlightedColor: {r: 0.38039216, g: 0.38039216, b: 0.38039216, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -2429,7 +2440,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2110965016}
+      - m_Target: {fileID: 2110965015}
         m_MethodName: changeColor
         m_Mode: 5
         m_Arguments:
@@ -2614,7 +2625,18 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2110965015}
+        m_MethodName: check
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: TMPro.TMP_InputField+SubmitEvent, Unity.TextMeshPro, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_OnSubmit:
@@ -2752,7 +2774,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+    m_HighlightedColor: {r: 0.38039216, g: 0.38039216, b: 0.38039216, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -2771,7 +2793,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2110965016}
+      - m_Target: {fileID: 2110965015}
         m_MethodName: changeColor
         m_Mode: 5
         m_Arguments:
@@ -3380,7 +3402,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
+    m_HighlightedColor: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -3399,7 +3421,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2110965016}
+      - m_Target: {fileID: 2110965015}
         m_MethodName: changeColor
         m_Mode: 5
         m_Arguments:
@@ -3767,7 +3789,18 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2110965015}
+        m_MethodName: check
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: TMPro.TMP_InputField+SubmitEvent, Unity.TextMeshPro, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_OnSubmit:
@@ -4424,7 +4457,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+    m_HighlightedColor: {r: 0.38039216, g: 0.38039216, b: 0.38039216, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -4443,7 +4476,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2110965016}
+      - m_Target: {fileID: 2110965015}
         m_MethodName: changeColor
         m_Mode: 5
         m_Arguments:
@@ -4500,7 +4533,6 @@ GameObject:
   - component: {fileID: 1255086624}
   - component: {fileID: 1255086623}
   - component: {fileID: 1255086625}
-  - component: {fileID: 1255086626}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -4555,21 +4587,7 @@ MonoBehaviour:
   radius: 3
   POIPref: {fileID: 4142127835553164, guid: 90b554f1015f3de4a8fb3a24a705071e, type: 2}
   POIPanel: {fileID: 2110965011}
---- !u!114 &1255086626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1255086622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01c1dab6fe5d1444b7637d3e5c99b6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  input_Name: {fileID: 0}
-  input_Desc: {fileID: 0}
-  input_Tags: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 0}
+  poiScript: {fileID: 0}
 --- !u!1 &1331330281
 GameObject:
   m_ObjectHideFlags: 0
@@ -5066,7 +5084,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.5568628, g: 0.5568628, b: 0.5568628, a: 1}
+    m_HighlightedColor: {r: 0.38039216, g: 0.38039216, b: 0.38039216, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -5085,7 +5103,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2110965016}
+      - m_Target: {fileID: 2110965015}
         m_MethodName: changeColor
         m_Mode: 5
         m_Arguments:
@@ -6127,7 +6145,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Enter tags...
+  m_text: tag1, tag2, tag3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6195,10 +6213,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1755823407}
-    characterCount: 13
+    characterCount: 16
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -6937,12 +6955,12 @@ GameObject:
   - component: {fileID: 2024706478}
   - component: {fileID: 2024706477}
   m_Layer: 5
-  m_Name: button_Create
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2024706476
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7285,7 +7303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2110965012
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7360,9 +7378,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2110965011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7745243900b9430499cd56e0a9ed0015, type: 3}
+  m_Script: {fileID: 11500000, guid: b01c1dab6fe5d1444b7637d3e5c99b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  input_Name: {fileID: 169549814}
+  input_Desc: {fileID: 1054174941}
+  input_Tags: {fileID: 749544264}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  createButton: {fileID: 2024706475}
+  inputname: {fileID: 0}
+  inputdesc: {fileID: 0}
+  inputtags: {fileID: 0}
 --- !u!114 &2110965016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7371,13 +7397,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2110965011}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01c1dab6fe5d1444b7637d3e5c99b6d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7745243900b9430499cd56e0a9ed0015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input_Name: {fileID: 169549814}
-  input_Desc: {fileID: 1054174941}
-  input_Tags: {fileID: 749544264}
-  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2138807906
 GameObject:
   m_ObjectHideFlags: 0

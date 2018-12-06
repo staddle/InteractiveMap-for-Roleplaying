@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,13 +19,15 @@ public class GridScript : MonoBehaviour {
     public float radius = 3f;
     Vector2 startPoint, endPoint;
     Line line1, line2, line3, line4;
-    Vector3Int oldMarkedStart, oldMarkedEnd;
     LineRenderer lineRenderer;
     Vector3 startCircle, endCircle;
     List<SpriteScript> markedList = new List<SpriteScript>();
     List<POI> pois = new List<POI>();
     public Transform POIPref;
     public GameObject POIPanel;
+    Transform tempPOI;
+    public POIScript poiScript;
+    POI lastPOI;
 
     bool end = false;
     // Use this for initialization
@@ -42,6 +45,7 @@ public class GridScript : MonoBehaviour {
         lineRenderer.positionCount = size;
         lineRenderer.sortingOrder = 1;
 
+        poiScript = POIPanel.GetComponent<POIScript>();
 
         end = false;
         xV = PlayerPrefs.GetInt("x-Value");
@@ -219,8 +223,6 @@ public class GridScript : MonoBehaviour {
 
         Vector3Int p1Int = grid.WorldToCell(p1);
         Vector3Int p2Int = grid.WorldToCell(p2);
-        oldMarkedStart = p1Int;
-        oldMarkedEnd = p2Int;
         //Debug.Log(p1Int + " " + p2Int);
         for (int x=p1Int.x+1; x<p2Int.x; x++)
         {
@@ -250,14 +252,19 @@ public class GridScript : MonoBehaviour {
     {
         Vector3 mPos = Camera.main.ScreenToWorldPoint(uiScript.rightClick.transform.position);
         mPos.z = 0;
-        Transform gO = Instantiate(POIPref, mPos, Quaternion.identity);
+        Transform tempPOI = Instantiate(POIPref, mPos, Quaternion.identity);
+        lastPOI = new POI(tempPOI, "New POI", mPos, "Change Description", Color.red, new List<string>() { "new" });
         showPOIPanel();
-        pois.Add(new POI(gO, "New POI", mPos, "Change Description", Color.red, new List<string>() { "new" }));
     }
 
     public void setPOI()
     {
-
+        lastPOI._name = poiScript.inputname.text;
+        lastPOI._desc = poiScript.inputdesc.text;
+        lastPOI._tags = new List<string>(poiScript.inputtags.text.Split(new string[] { ", " }, StringSplitOptions.None));
+        lastPOI._color = poiScript.color;
+        lastPOI._obj.GetComponent<SpriteRenderer>().color = lastPOI._color;
+        pois.Add(lastPOI);
     }
 
     public void showPOIPanel()

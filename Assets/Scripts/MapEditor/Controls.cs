@@ -40,7 +40,7 @@ public class Controls : MonoBehaviour {
                 {
                     //cam.transform.position -= new Vector3((float)(Input.GetAxis("Mouse X")*Time.deltaTime*moveXMultiplier), 0, 0);
                     cam.transform.position += new Vector3(oldPos.x - Camera.main.ScreenToWorldPoint(Input.mousePosition).x, 0, 0);
-                    Debug.Log(oldPos + " " + Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                    //Debug.Log(oldPos + " " + Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 }
                 
             }
@@ -51,7 +51,7 @@ public class Controls : MonoBehaviour {
                 {
                     //cam.transform.position -= new Vector3(0, (float)(Input.GetAxis("Mouse Y") * Time.deltaTime * moveYMultiplier), 0);
                     cam.transform.position += new Vector3(0, oldPos.y - Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
-                    Debug.Log(oldPos + " " + Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                    //Debug.Log(oldPos + " " + Camera.main.ScreenToWorldPoint(Input.mousePosition));
                 }
                 
                 
