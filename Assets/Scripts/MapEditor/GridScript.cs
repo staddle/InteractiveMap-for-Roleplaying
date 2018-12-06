@@ -255,6 +255,11 @@ public class GridScript : MonoBehaviour {
         pois.Add(new POI(gO, "New POI", mPos, "Change Description", Color.red, new List<string>() { "new" }));
     }
 
+    public void setPOI()
+    {
+
+    }
+
     public void showPOIPanel()
     {
         POIPanel.SetActive(true);
