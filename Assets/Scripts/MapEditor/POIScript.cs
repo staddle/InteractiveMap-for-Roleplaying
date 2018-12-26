@@ -27,23 +27,26 @@ public class POIScript : MonoBehaviour {
         float r, g, b;
         if (hex.Contains("#"))
         {
-            r = hexToFloat(hex.Substring(hex.IndexOf('#'), 2));
-            g = hexToFloat(hex.Substring(hex.IndexOf('#') + 2, 2));
-            b = hexToFloat(hex.Substring(hex.IndexOf('#') + 4, 2));
+            r = hexToFloat(hex.Substring(hex.IndexOf('#') + 1, 2));
+            g = hexToFloat(hex.Substring(hex.IndexOf('#') + 3, 2));
+            b = hexToFloat(hex.Substring(hex.IndexOf('#') + 5, 2));
+            //Debug.Log(r +" "+ g +" "+b);
         }
         else
         {
             r = g = b = 0;
         }
-        color = new Color(r, g, b);
+        color = new Color(r/255, g/255, b/255);
     }
 
     float hexToFloat(string hexString)
     {
-        uint num = uint.Parse(hexString, System.Globalization.NumberStyles.AllowHexSpecifier);
+        Debug.Log(hexString);
+        /*uint num = uint.Parse(hexString, System.Globalization.NumberStyles.AllowHexSpecifier);
 
         byte[] floatVals = BitConverter.GetBytes(num);
-        return BitConverter.ToSingle(floatVals, 0);
+        return BitConverter.ToSingle(floatVals, 0);*/
+        return (float) int.Parse(hexString, System.Globalization.NumberStyles.HexNumber);
     }
 
     public void check()

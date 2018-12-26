@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIScript : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class UIScript : MonoBehaviour
     public bool isSquareCursorActive = false;
     public bool isCircleCursorActive = false;
     public int colorSelected = 0;
+    public GameObject menu;
+    public GameObject loadMenu;
+    bool menuOpen = false;
     int colorActive;
 
     // Use this for initialization
@@ -144,4 +148,36 @@ public class UIScript : MonoBehaviour
     {
         rightClick.SetActive(false);
     }
+
+    public void menuButtonClicked(){
+        if (!menuOpen){
+            menu.SetActive(true);
+            menuOpen = true;
+        }else{
+            menu.SetActive(false);
+            menuOpen = false;
+        }
+    }
+
+    public void closeMenuButtonClicked(){
+        menu.SetActive(false);
+        menuOpen = false;
+    }
+
+    public void backButtonClicked(){
+        menu.SetActive(true);
+        loadMenu.SetActive(false);
+        menuOpen = true;
+    }
+
+    public void openSaveButtonClicked(){
+        GameObject.Find("pathSave").GetComponent<InputField>().text = Application.dataPath+"/grid.sav";
+    }
+
+    public void onLoadButtonClicked(){
+        menu.SetActive(false);
+        menuOpen = false;
+        loadMenu.SetActive(true);
+    }
+    
 }

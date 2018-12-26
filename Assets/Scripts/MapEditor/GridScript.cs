@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class GridScript : MonoBehaviour {
 
@@ -22,17 +23,20 @@ public class GridScript : MonoBehaviour {
     LineRenderer lineRenderer;
     Vector3 startCircle, endCircle;
     List<SpriteScript> markedList = new List<SpriteScript>();
-    List<POI> pois = new List<POI>();
+    public List<POI> pois = new List<POI>();
     public Transform POIPref;
     public GameObject POIPanel;
     Transform tempPOI;
     public POIScript poiScript;
+    public GameObject rightClick;
     POI lastPOI;
+    GameObject POIParent;
 
     bool end = false;
     // Use this for initialization
     void Start() { //anchorPoint is bottom-left
-        
+        POIParent = new GameObject("POIParent");
+
         float sizeValue = (2.0f * Mathf.PI) / theta_scale;
         size = (int)sizeValue;
         size++;
@@ -67,13 +71,17 @@ public class GridScript : MonoBehaviour {
                 newGO.AddComponent<BoxCollider2D>();
                 newGO.transform.position = grid.CellToWorld(new Vector3Int(x, y, 0));
                 newGO.transform.parent = panelObjects.transform;
-                panelList.Add(new Panel(newGO, x, y));
+                panelList.Add(new Panel(newGO, x, y, 0));
             }
         }
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log(lastPOI._obj.GetComponent<SpriteRenderer>().color);
+        }
         if (uiScript.isMoveCursorActive && Input.GetMouseButtonDown(1)) //POIMenuCreation
         {
             uiScript.rightClickMenu(Input.mousePosition);
@@ -84,19 +92,13 @@ public class GridScript : MonoBehaviour {
             uiScript.rightClickMenuClear();
         }
         if (!uiScript.isMoveCursorActive && Input.GetKey(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject() && uiScript.colorSelected != -1)
-        {
+        { //Color button + on Panel Pressed
             Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldPoint.z = 0;
             Vector3Int cellPos = grid.WorldToCell(worldPoint);
             if (cellPos.x >= -((int)((double)xV / 2) + (xV % 2)) && cellPos.x <= (int)((double)xV / 2) && cellPos.y >= -((int)((double)yV / 2) + (yV % 2)) && cellPos.y <= (int)((double)yV / 2))
             {
-                //Debug.Log(cellPos);
-                /**Collider2D[] colliders = Physics2D.OverlapBoxAll(new Vector2(cellPos.x, cellPos.y), new Vector2(float.Epsilon, float.Epsilon), 0f);
-                if (colliders.Length > 0)
-                {
-                    Debug.Log(colliders[0].transform);
-                    colliders[0].GetComponent<SpriteScript>().changeColor(uiScript.colorSelected);
-                } **/
+                panelList.Find(p => p.x == cellPos.x && p.y == cellPos.y).c = uiScript.colorSelected;
                 GameObject.Find(cellPos.x + "/" + cellPos.y).GetComponent<SpriteScript>().changeColor(uiScript.colorSelected);
             }
         }
@@ -104,6 +106,7 @@ public class GridScript : MonoBehaviour {
         {
             if (Input.GetMouseButtonDown(0))
             {
+                
                 clearLines();
                 var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 
@@ -117,8 +120,11 @@ public class GridScript : MonoBehaviour {
             {
                 line1 = null;
                 endPoint = line3.end;
-                //Debug.Log(startPoint + " " + endPoint);
-                markPanelsRect(startPoint, endPoint);
+                if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.RightControl)){
+                    markPanelsRect(startPoint, endPoint, false);
+                }else{
+                    markPanelsRect(startPoint, endPoint, true);
+                }
                 clearLines();
             }
 
@@ -205,9 +211,11 @@ public class GridScript : MonoBehaviour {
         }
     }
 
-    void markPanelsRect(Vector2 p1, Vector2 p2)
+    void markPanelsRect(Vector2 p1, Vector2 p2, bool ctrlPressed)
     {
-        removeMarks();
+        if(!ctrlPressed){
+            removeMarks();
+        }
         if (p1.x >= p2.x) {
             float x2 = p1.x;
             p1.x = p2.x;
@@ -229,7 +237,7 @@ public class GridScript : MonoBehaviour {
             for(int y = p1Int.y+1; y<p2Int.y; y++)
             {
                 SpriteScript ss = GameObject.Find(x + "/" + y).GetComponent<SpriteScript>();
-                if (ss != null) { ss.markPanel(); markedList.Add(ss); }
+                if (ss != null) { ss.markPanel(); markedList.Add(ss); } 
             }
         }
     }
@@ -244,15 +252,45 @@ public class GridScript : MonoBehaviour {
 
     public void onClearButton()
     {
+        destroyPanels();
+        destroyPOIs();
+        GameObject panelObjects = new GameObject("panelObjects");
+        POIParent = new GameObject("POIParent");
+        for (int x = -((int)((double)xV/2)+(xV%2)); x <= (int)((double)xV/2); x++) //makes it so that it iterates from -x/2 (+1 if x = odd) to +x/2 // ex: x=21 ==> iterates from -11 to +10
+        {
+            for (int y = -((int)((double)yV / 2) + (yV % 2)); y <= (int)((double)yV / 2); y++)
+            {
+                GameObject newGO = new GameObject(x + "/" + y);
+                newGO.AddComponent<SpriteRenderer>();
+                newGO.AddComponent<SpriteScript>();
+                SpriteRenderer SR = newGO.GetComponent<SpriteRenderer>();
+                SR.sprite = SpriteScript.getSprite(0);
+                
+                newGO.AddComponent<BoxCollider2D>();
+                newGO.transform.position = grid.CellToWorld(new Vector3Int(x, y, 0));
+                newGO.transform.parent = panelObjects.transform;
+                panelList.Add(new Panel(newGO, x, y, 0));
+            }
+        }
+    }
+
+    public void destroyPanels(){
         Destroy(GameObject.Find("panelObjects"));
-        Start();
+        markedList.Clear();
+    }
+
+    public void destroyPOIs(){
+        Destroy(GameObject.Find("POIParent"));
     }
 
     public void createPOI()
     {
+        hideRightClick();
         Vector3 mPos = Camera.main.ScreenToWorldPoint(uiScript.rightClick.transform.position);
         mPos.z = 0;
         Transform tempPOI = Instantiate(POIPref, mPos, Quaternion.identity);
+        tempPOI.GetComponent<BoxCollider2D>().
+        //tempPOI.parent = POIParent.transform;
         lastPOI = new POI(tempPOI, "New POI", mPos, "Change Description", Color.red, new List<string>() { "new" });
         showPOIPanel();
     }
@@ -262,13 +300,63 @@ public class GridScript : MonoBehaviour {
         lastPOI._name = poiScript.inputname.text;
         lastPOI._desc = poiScript.inputdesc.text;
         lastPOI._tags = new List<string>(poiScript.inputtags.text.Split(new string[] { ", " }, StringSplitOptions.None));
-        lastPOI._color = poiScript.color;
-        lastPOI._obj.GetComponent<SpriteRenderer>().color = lastPOI._color;
+        lastPOI.changeColor(poiScript.color);
         pois.Add(lastPOI);
+        hidePOIPanel();
+        hideRightClick();
+    }
+
+    public void addPOI(string[] parts){
+        Debug.Log(parts[1] + " "+parts[2]);
+        Vector3 mPos = new Vector3(float.Parse(parts[1]),float.Parse(parts[2]),0);
+        Transform tempPOI = Instantiate(POIPref, mPos, Quaternion.identity);
+        Color c = new Color(float.Parse(parts[4]),float.Parse(parts[5]), float.Parse(parts[6]));
+        tempPOI.GetComponent<SpriteRenderer>().color = c;
+        tempPOI.parent = POIParent.transform;
+        POI p = new POI(tempPOI, parts[0], mPos, parts[3], c, parts[7].Split(';').ToList());
+        pois.Add(p);
     }
 
     public void showPOIPanel()
     {
         POIPanel.SetActive(true);
+    }
+
+    public void hidePOIPanel()
+    {
+        POIPanel.SetActive(false);
+    }
+
+    public void hideRightClick()
+    {
+        rightClick.SetActive(false);
+    }
+
+    public void showRightClick()
+    {
+        rightClick.SetActive(true);
+    }
+
+    public void loadPanelList(List<string> newPanelStringList){
+        destroyPanels();
+        panelList = new List<Panel>();
+        GameObject panelObjects = new GameObject("panelObjects");
+        foreach(string s in newPanelStringList){
+                string se = s.Replace(";","");
+                string[] parts = se.Split("/".ToCharArray());
+                Debug.Log(s);
+                Debug.Log(parts[0]+" "+parts[1]+" "+parts[2]+" "+parts.Length);
+                GameObject newGO = new GameObject(parts[0] + "/" + parts[1]);
+                newGO.AddComponent<SpriteRenderer>();
+                newGO.AddComponent<SpriteScript>();
+                int col = int.Parse(parts[2]);
+                newGO.GetComponent<SpriteScript>()._color = col;
+                SpriteRenderer SR = newGO.GetComponent<SpriteRenderer>();
+                SR.sprite = SpriteScript.getSprite(col);
+                newGO.AddComponent<BoxCollider2D>();
+                newGO.transform.position = grid.CellToWorld(new Vector3Int(int.Parse(parts[0]), int.Parse(parts[1]), 0));
+                newGO.transform.parent = panelObjects.transform;
+                panelList.Add(new Panel(newGO, int.Parse(parts[0]), int.Parse(parts[1]), col));
+        }
     }
 }

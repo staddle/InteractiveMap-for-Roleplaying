@@ -9,6 +9,7 @@ public class POI {
     public List<string> _tags;
     public Color _color;
     public Transform _obj;
+    public SpriteRenderer _SR;
 
     public POI(Transform obj, string name, Vector2 position, string desc, Color color, List<string> tags)
     {
@@ -17,7 +18,11 @@ public class POI {
         _pos = position;
         _tags = tags;
         _color = color;
+        _SR = obj.GetComponent<SpriteRenderer>();
     }
 
-
+    public void changeColor(Color color){
+        _color = color;
+        _SR.color = color;
+    }
 }
